@@ -1,0 +1,52 @@
+<div class="container">
+
+  <form (ngSubmit)="editProduct()"  [formGroup]="formEditProduct">
+
+    <div class="form-group">
+      <label for="productName">Product name:</label>
+      <input type="text" class="form-control" name="productName" formControlName="productName"  required minlength="3">
+
+      <div *ngIf="formEditProduct.controls.productName.touched &&  !form.controls.productName.valid" >
+        <div class="alert alert-danger" *ngIf="productName.errors.required">
+          First name is required
+        </div>
+        <div class="alert alert-danger" *ngIf="formEditProduct.controls.productName.errors.minlength">
+          a product name is required
+        </div>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="productCategory">Product category:</label>
+      <input type="text" class="form-control" name="productCategory"  formControlName="productCategory"   required minlength="3">
+      <div *ngIf="formEditProduct.controls.productCategory.touched && formEditProduct.controls.productCategory.errors">
+        <div class="alert alert-danger" *ngIf="productCategory.errors.required">
+          First name is required
+        </div>
+        <div class="alert alert-danger" *ngIf="formEditProduct.controls.productCategory.errors.minlength">
+          a product category is required
+        </div>
+      </div>
+    </div>
+
+
+    <div class="form-group">
+      <label for="productPrice">Product price:</label>
+      <input type="number" class="form-control"  name="productPrice"  formControlName="productPrice" 
+             required max="100" min="1">
+      <div *ngIf="formEditProduct.controls.productPrice.errors">
+        <div class="alert alert-danger" *ngIf="formEditProduct.controls.productPrice.errors">
+          a price is required
+        </div>
+        <div class="alert alert-danger" *ngIf="formEditProduct.controls.productPrice.errors">
+          the price must be greater than 0
+        </div>
+      </div>
+    </div>
+
+
+    <button [disabled]="!formEditProduct.form.valid" type="submit" class="btn btn-success">Update Product</button>
+
+  </form>
+ 
+</div>

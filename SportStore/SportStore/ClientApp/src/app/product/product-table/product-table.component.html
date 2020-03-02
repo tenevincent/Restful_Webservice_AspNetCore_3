@@ -1,0 +1,246 @@
+
+
+<div class="container">
+  <div class="row">
+    <table class="table table-striped">
+      <tbody>
+        <tr>
+          <th>Name</th>
+          <th>Category</th>
+          <th>Price</th>
+          <th></th>
+          <th></th>
+          <th></th>
+        </tr>
+        <tr *ngFor="let product of products">
+          <td>{{product.name}}</td>
+          <td>{{product.category}}</td>
+          <td>{{product.price}}</td>
+          <td>
+            <button class="btn btn-primary btn-sm" style="min-width:60px" [routerLink]="['/detail', product.productId]">
+              Details
+            </button>
+          </td>
+          <td>
+            <!--<button class="btn btn-success btn-sm" [routerLink]="['/edit-product', product.productId]">-->
+
+            <button class="btn btn-success btn-sm" style="min-width:60px" (click)="editProduct(product.productId)">
+              Edit
+            </button>
+          </td>
+
+          <td>
+            <button class="btn btn-danger btn-sm" style="min-width:60px" (click)="showDeleteProduct(product.productId)">
+              Delete
+            </button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+
+  </div>
+</div>
+
+
+
+
+
+<div *ngIf="showDeletePopUp">
+  <form id="formDeleteProduct" (ngSubmit)="submitDeleteProduct(product.productId)">
+    <div class="modal" tabindex="-1" style="display:block" role="dialog">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <!--Content header-->
+          <div class="modal-header">
+            <h3 class="text-info">Deleting Product...</h3>
+            <button type="button" class="close" (click)="onCloseDeletePopUp()">
+              <span aria-hidden="true">X</span>
+            </button>
+          </div>
+
+          <!-- Body-->
+          <div class="modal-body">
+            <div class="row">
+              <div class="col-12">
+                <div class="row">
+                  <div class="col-12">
+                    <p>Do you want to delete the category &#34;{{product.name}}&#34;? </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Footer-->
+          <div class="modal-footer">
+            <button type="submit" [disabled]="!productForm.form.valid" class="btn btn-danger">Delete</button>
+            <button type="button" (click)="onCloseDeletePopUp()" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </form>
+</div>
+
+
+
+
+<div *ngIf="showEditProductPopUp">
+  <div class="modal" tabindex="-1" style="display:block" role="dialog">
+    <form (ngSubmit)="submitUpdateProduct()"  [formGroup]="formEditProduct">
+       
+
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h3 class="text-info">TODO: Product</h3>
+            <button type="button" class="close" (click)="closePopUp()">
+              <span aria-hidden="true">X</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <div class="row">
+              <div class="col-9">
+
+                <div class="form-group">
+                  <label for="productName">Product name:</label>
+                  <input type="text" class="form-control"  formControlName="productName"  required minlength="3">
+
+                  <div *ngIf="formEditProduct.controls.productName.touched && formEditProduct.controls.productName.errors">
+                    <div class="alert alert-danger" *ngIf="formEditProduct.controls.productName.errors.required">
+                      product name is required
+                    </div>
+                    <div class="alert alert-danger" *ngIf="formEditProduct.controls.productName.errors.minlength">
+                      a product name is required
+                    </div>
+                  </div>
+                </div>
+
+
+                <div class="form-group">
+                  <label for="productCategory">Product category:</label>
+                  <input type="text" class="form-control"  formControlName="productCategory"  required minlength="3">
+                  <div *ngIf="formEditProduct.controls.productCategory.touched && formEditProduct.controls.productCategory.errors">
+                    <div class="alert alert-danger" *ngIf="formEditProduct.controls.productCategory.errors.required">
+                      First name is required
+                    </div>
+                    <div class="alert alert-danger" *ngIf="formEditProduct.controls.productCategory.errors.minlength">
+                      a product category is required
+                    </div>
+                  </div>
+                </div>
+
+
+                <div class="form-group">
+                  <label for="productPrice">Product price:</label>
+                  <input type="number" class="form-control"   formControlName="productPrice"  required max="100" min="1">
+                  <div *ngIf="formEditProduct.controls.productPrice.errors">
+                    <div class="alert alert-danger" *ngIf="formEditProduct.controls.productPrice.errors">
+                      a price is required
+                    </div>
+                    <div class="alert alert-danger" *ngIf="formEditProduct.controls.productPrice.errors">
+                      the price must be greater than 0
+                    </div>
+                  </div>
+                </div>
+
+                <div class="modal-footer">
+                  <button type="submit" [disabled]="!formEditProduct.valid" class="btn btn-primary">Save changes</button>
+                  <button type="button" (click)="closePopUp()" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                </div>
+
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+
+
+
+
+
+
+
+
+
+<!--<div *ngIf="showEditProductPopUp">
+  <div class="modal" tabindex="-1" style="display:block" role="dialog">
+    <form (ngSubmit)="submitUpdateProduct()" #productForm="ngForm">
+
+
+
+
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h3 class="text-info">TODO: Product</h3>
+            <button type="button" class="close" (click)="closePopUp()">
+              <span aria-hidden="true">X</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <div class="row">
+              <div class="col-9">
+
+                <div class="form-group">
+                  <label for="productName">Product name:</label>
+                  <input type="text" class="form-control" id="productName" name="productName" #productName="ngModel"
+                         [(ngModel)]="product.name" required minlength="3">
+
+                  <div *ngIf="productName.touched && productName.errors">
+                    <div class="alert alert-danger" *ngIf="productName.errors.required">
+                      product name is required
+                    </div>
+                    <div class="alert alert-danger" *ngIf="productName.errors.minlength">
+                      a product name is required
+                    </div>
+                  </div>
+                </div>
+
+
+                <div class="form-group">
+                  <label for="productCategory">Product category:</label>
+                  <input type="text" class="form-control" id="productCategory" name="productCategory"
+                         #productCategory="ngModel" [(ngModel)]="product.category" required minlength="3">
+                  <div *ngIf="productCategory.touched && productCategory.errors">
+                    <div class="alert alert-danger" *ngIf="productCategory.errors.required">
+                      First name is required
+                    </div>
+                    <div class="alert alert-danger" *ngIf="productCategory.errors.minlength">
+                      a product category is required
+                    </div>
+                  </div>
+                </div>
+
+
+                <div class="form-group">
+                  <label for="productPrice">Product price:</label>
+                  <input type="number" class="form-control" id="productPrice" name="productPrice" #productPrice="ngModel"
+                         [(ngModel)]="product.price" required max="100" min="1">
+                  <div *ngIf="productPrice.errors">
+                    <div class="alert alert-danger" *ngIf="productPrice.errors">
+                      a price is required
+                    </div>
+                    <div class="alert alert-danger" *ngIf="productPrice.errors">
+                      the price must be greater than 0
+                    </div>
+                  </div>
+                </div>
+
+                <div class="modal-footer">
+                  <button type="submit" [disabled]="!productForm.form.valid" class="btn btn-primary">Save changes</button>
+                  <button type="button" (click)="closePopUp()" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                </div>
+
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>-->
