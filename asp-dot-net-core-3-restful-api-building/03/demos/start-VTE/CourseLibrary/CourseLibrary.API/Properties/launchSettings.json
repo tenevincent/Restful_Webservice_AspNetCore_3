@@ -15,8 +15,6 @@
   "profiles": {
     "IIS Express": {
       "commandName": "Project",
-      "launchBrowser": true,
-      "launchUrl": "http://localhost:51044/api/authors",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
       },
@@ -25,7 +23,7 @@
     "CourseLibrary.API": {
       "commandName": "Project",
       "launchBrowser": true,
-      "launchUrl": "api/authors",
+      "launchUrl": "api/values",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
       },
